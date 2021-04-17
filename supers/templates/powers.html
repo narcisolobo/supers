@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <title>List of Powers</title>
+</head>
+<body>
+    <div class="container">
+        <h1>THE SUPERS PROJECTS</h1>
+        <h2>A list of super-people and their powers.</h2>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Power</th>
+                    <th>Related Supers</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for power in powers %}
+                <tr>
+                    <td>{{ power.ability }}</td>
+                    <td>
+                        {% for super in power.supers.all %}
+                        {{ super.code_name }}, 
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <form action="/add_power" method="post">
+            {% csrf_token %}
+            <label class="form-label" for="ability">Ability:</label>
+            <input class="form-control" type="text" name="ability" id="ability">
+            <select class="form-select mt-3" name="super_id" id="">
+                {% for super in supers %}
+                <option value="{{ super.id }}">{{ super.code_name }}</option>
+                {% endfor %}
+            </select>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-primary mt-3" type="submit">Add Power</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
